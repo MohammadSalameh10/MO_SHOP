@@ -1,0 +1,6 @@
+@MOSHOP.PL_HostAddress = http://localhost:5099
+
+GET {{MOSHOP.PL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

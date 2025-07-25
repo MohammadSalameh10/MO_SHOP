@@ -1,0 +1,13 @@
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\bin\Debug\net9.0\MOSHOP.DAL.deps.json
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\bin\Debug\net9.0\MOSHOP.DAL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\bin\Debug\net9.0\MOSHOP.DAL.pdb
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.csproj.AssemblyReference.cache
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.AssemblyInfoInputs.cache
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.AssemblyInfo.cs
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.csproj.CoreCompileInputs.cache
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.sourcelink.json
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\refint\MOSHOP.DAL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\MOSHOP.DAL.pdb
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.DAL\obj\Debug\net9.0\ref\MOSHOP.DAL.dll

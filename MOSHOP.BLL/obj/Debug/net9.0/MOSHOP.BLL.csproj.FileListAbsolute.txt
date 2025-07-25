@@ -1,0 +1,16 @@
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\bin\Debug\net9.0\MOSHOP.BLL.deps.json
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\bin\Debug\net9.0\MOSHOP.BLL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\bin\Debug\net9.0\MOSHOP.BLL.pdb
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\bin\Debug\net9.0\MOSHOP.DAL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\bin\Debug\net9.0\MOSHOP.DAL.pdb
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.csproj.AssemblyReference.cache
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.AssemblyInfoInputs.cache
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.AssemblyInfo.cs
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.csproj.CoreCompileInputs.cache
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.sourcelink.json
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.csproj.Up2Date
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\refint\MOSHOP.BLL.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\MOSHOP.BLL.pdb
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.BLL\obj\Debug\net9.0\ref\MOSHOP.BLL.dll

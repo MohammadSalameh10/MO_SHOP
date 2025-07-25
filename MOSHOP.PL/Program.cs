@@ -1,4 +1,10 @@
 
+using Microsoft.EntityFrameworkCore;
+using MOSHOP.BLL.Services;
+using MOSHOP.DAL.Data;
+using MOSHOP.DAL.Repositories;
+using Scalar;
+using Scalar.AspNetCore;
 namespace MOSHOP.PL
 {
     public class Program
@@ -12,13 +18,17 @@ namespace MOSHOP.PL
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
-
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MOSHOP.BLL.Services;
+using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Requests;
 
 namespace MOSHOP.PL.Controllers
@@ -19,14 +19,14 @@ namespace MOSHOP.PL.Controllers
 
         public IActionResult GetAll()
         {
-            return Ok(_categoryService.GetAllCategories());
+            return Ok(_categoryService.GetAll());
         }
 
         [HttpGet("{id}")]
 
         public IActionResult GetById([FromRoute] int id)
         {
-            var category = _categoryService.GetCategoryById(id);
+            var category = _categoryService.GetById(id);
             if (category is null)
             {
                 return NotFound();
@@ -37,7 +37,7 @@ namespace MOSHOP.PL.Controllers
         [HttpPost("")]
         public IActionResult Create([FromBody] CategoryRequest request)
         {
-            var id = _categoryService.CreateCategory(request);
+            var id = _categoryService.Create(request);
             if (id == 0)
             {
                 return BadRequest("Category could not be created.");
@@ -49,7 +49,7 @@ namespace MOSHOP.PL.Controllers
 
         public IActionResult Update([FromRoute] int id, [FromBody] CategoryRequest request)
         {
-            var updated = _categoryService.UpdateCategory(id, request);
+            var updated = _categoryService.Update(id, request);
             return updated > 0 ? Ok() : NotFound();
         }
 
@@ -65,7 +65,7 @@ namespace MOSHOP.PL.Controllers
 
         public IActionResult Delete([FromRoute] int id)
         {
-            var deleted = _categoryService.DeleteCategory(id);
+            var deleted = _categoryService.Delete(id);
             return deleted > 0 ? Ok() : NotFound();
 
         }

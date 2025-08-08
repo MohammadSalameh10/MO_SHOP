@@ -1,8 +1,10 @@
 
 using Microsoft.EntityFrameworkCore;
-using MOSHOP.BLL.Services;
+using MOSHOP.BLL.Services.Classes;
+using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.Data;
-using MOSHOP.DAL.Repositories;
+using MOSHOP.DAL.Repositories.Classes;
+using MOSHOP.DAL.Repositories.Interfaces;
 using Scalar;
 using Scalar.AspNetCore;
 namespace MOSHOP.PL
@@ -22,6 +24,9 @@ namespace MOSHOP.PL
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+            builder.Services.AddScoped<IBrandService, BrandService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

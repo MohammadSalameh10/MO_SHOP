@@ -1,17 +1,21 @@
 
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MOSHOP.BLL.Services.Classes;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.Data;
+using MOSHOP.DAL.Models;
 using MOSHOP.DAL.Repositories.Classes;
 using MOSHOP.DAL.Repositories.Interfaces;
+using MOSHOP.DAL.Utils;
 using Scalar;
 using Scalar.AspNetCore;
 namespace MOSHOP.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +26,17 @@ namespace MOSHOP.PL
             builder.Services.AddOpenApi();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IBrandService, BrandService>();
+            builder.Services.AddScoped<ISeedData, SeedData>();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+               
+
 
             var app = builder.Build();
 
@@ -35,6 +46,11 @@ namespace MOSHOP.PL
                 app.MapOpenApi();
                 app.MapScalarApiReference();
             }
+
+            var scope = app.Services.CreateScope();
+            var objectOfSeedData = scope.ServiceProvider.GetRequiredService<ISeedData>();
+            await objectOfSeedData.DataSeedingAsync();
+            await objectOfSeedData.IdentityDataSeedingAsync();
 
             app.UseHttpsRedirection();
 

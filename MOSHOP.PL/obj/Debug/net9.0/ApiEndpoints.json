@@ -190,6 +190,58 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MOSHOP.PL.Areas.Identity.Controllers.AccountController",
+    "Method": "Login",
+    "RelativePath": "api/Identity/Account/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginRequest",
+        "Type": "MOSHOP.DAL.DTO.Requests.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MOSHOP.DAL.DTO.Responses.UserResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Identity.Controllers.AccountController",
+    "Method": "Register",
+    "RelativePath": "api/Identity/Account/Register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerRequest",
+        "Type": "MOSHOP.DAL.DTO.Requests.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MOSHOP.DAL.DTO.Responses.UserResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MOSHOP.PL.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",

@@ -1,8 +1,8 @@
 [
   {
-    "ContainingType": "MOSHOP.PL.Controllers.BrandsController",
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.BrandsController",
     "Method": "GetAll",
-    "RelativePath": "api/Brands",
+    "RelativePath": "api/Admin/Brands",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -10,9 +10,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MOSHOP.PL.Controllers.BrandsController",
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.BrandsController",
     "Method": "Create",
-    "RelativePath": "api/Brands",
+    "RelativePath": "api/Admin/Brands",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -26,9 +26,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MOSHOP.PL.Controllers.BrandsController",
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.BrandsController",
     "Method": "GetById",
-    "RelativePath": "api/Brands/{id}",
+    "RelativePath": "api/Admin/Brands/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -178,6 +178,32 @@
     "Method": "ToggleStatus",
     "RelativePath": "api/Categories/ToggleStatus/{id}",
     "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.BrandsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Customer/Brands",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.BrandsController",
+    "Method": "GetById",
+    "RelativePath": "api/Customer/Brands/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [

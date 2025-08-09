@@ -17,35 +17,10 @@ namespace MOSHOP.PL.Controllers
             _brandService = brandService;
         }
 
-        [HttpGet("")]
 
-        public IActionResult GetAll()
-        {
-            return Ok(_brandService.GetAll());
-        }
+       
 
-        [HttpGet("{id}")]
-
-        public IActionResult GetById([FromRoute] int id)
-        {
-            var category = _brandService.GetById(id);
-            if (category is null)
-            {
-                return NotFound();
-            }
-            return Ok(category);
-        }
-
-        [HttpPost("")]
-        public IActionResult Create([FromBody] BrandRequest request)
-        {
-            var id = _brandService.Create(request);
-            if (id == 0)
-            {
-                return BadRequest("Brand  could not be created.");
-            }
-            return CreatedAtAction(nameof(GetById), new { id }, null);
-        }
+      
 
         [HttpPatch("{id}")]
 

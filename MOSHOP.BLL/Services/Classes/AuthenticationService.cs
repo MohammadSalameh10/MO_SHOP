@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Requests;
 using MOSHOP.DAL.DTO.Responses;
@@ -14,9 +18,11 @@ namespace MOSHOP.BLL.Services.Classes
     public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public AuthenticationService(UserManager<ApplicationUser> userManager)
+        private readonly IConfiguration _configuration;
+        public AuthenticationService(UserManager<ApplicationUser> userManager ,IConfiguration configuration)
         {
             _userManager = userManager;
+            _configuration = configuration;
         }
         public async Task<UserResponse> LoginAsync(LoginRequest loginRequest)
         {
@@ -30,9 +36,10 @@ namespace MOSHOP.BLL.Services.Classes
             {
                 throw new Exception("Invalid email or password");
             }
+           
             return new UserResponse()
             {
-                Email = user.Email,
+                Token = await CreateTokenAsync(user)
             };
 
         }
@@ -52,13 +59,40 @@ namespace MOSHOP.BLL.Services.Classes
             {
                 return new UserResponse()
                 {
-                    Email = registerRequest.Email
+                    Token = registerRequest.Email
                 };
             }
             else
             {
                 throw new Exception($"{Result.Errors}");
             }
+        }
+
+        private async Task<string> CreateTokenAsync(ApplicationUser user)
+        {
+            var Claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier,user.Id)
+            };
+
+            var Roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in Roles)
+            {
+                Claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("jwtOptions")["SecretKey"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+           
+            var token = new JwtSecurityToken(
+                claims: Claims,
+                expires: DateTime.Now.AddDays(15),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

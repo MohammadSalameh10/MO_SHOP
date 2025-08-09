@@ -39,9 +39,13 @@ namespace MOSHOP.BLL.Services.Classes
             return _genericRepository.Remove(entity);
         }
 
-        public IEnumerable<TResponse> GetAll()
+        public IEnumerable<TResponse> GetAll(bool onlyActive = false)
         {
             var entities = _genericRepository.GetAll();
+            if (onlyActive)
+            {
+                entities = entities.Where(e => e.status == Status.Active);
+            }
             return entities.Adapt<IEnumerable<TResponse>>();
         }
 

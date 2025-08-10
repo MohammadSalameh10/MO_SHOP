@@ -67,26 +67,31 @@ namespace MOSHOP.DAL.Utils
                 {
                     Email = "mohammad@gmail.com",
                     FullName = "Mohammad Salameh",
-                    PhoneNumber = "123456",
-                    UserName = "Msalameh"
+                    PhoneNumber = "0592100105",
+                    UserName = "Msalameh",
+                    EmailConfirmed = true
                 };
                 var user2 = new ApplicationUser()
                 {
                     Email = "sleman@gmail.com",
                     FullName = "Sleman Hmidat",
-                    PhoneNumber = "223456",
-                    UserName = "Shmidat"
+                    PhoneNumber = "0592100104",
+                    UserName = "Shmidat",
+                    EmailConfirmed = true
                 };
                 var user3 = new ApplicationUser()
                 {
                     Email = "Ahmad@gmail.com",
                     FullName = "Ahmad Baker",
-                    PhoneNumber = "334567",
-                    UserName = "Abaker"
+                    PhoneNumber = "0592100102",
+                    UserName = "Abaker",
+                    EmailConfirmed = true
                 };
-                await _userManager.CreateAsync(user1, "Pass@123");
-                await _userManager.CreateAsync(user2, "Pass@123");
-                await _userManager.CreateAsync(user3, "Pass@123");
+                await _userManager.CreateAsync(user1, "Pass@1212");
+                await _userManager.CreateAsync(user2, "Pass@1212");
+                await _userManager.CreateAsync(user3, "Pass@1212");
+
+              
 
                 await _userManager.AddToRoleAsync(user1, "Admin");
                 await _userManager.AddToRoleAsync(user2, "SuperAdmin");

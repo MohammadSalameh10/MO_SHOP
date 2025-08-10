@@ -10,8 +10,11 @@ namespace MOSHOP.BLL.Services.Interfaces
 {
     public interface IAuthenticationService
     {
-       Task<UserResponse> LoginAsync(LoginRequest loginRequest);
-       Task<UserResponse> RegisterAsync(RegisterRequest registerRequest);
+        Task<UserResponse> LoginAsync(LoginRequest loginRequest);
+        Task<UserResponse> RegisterAsync(RegisterRequest registerRequest);
+        Task<string> ConfirmEmailAsync(string token, string userId);
+        Task<bool> ForgotPasswordAsync(ForgotPasswordRequest request);
+        Task<bool> ResetPasswordAsync(ResetPasswordRequest request);
 
     }
 }

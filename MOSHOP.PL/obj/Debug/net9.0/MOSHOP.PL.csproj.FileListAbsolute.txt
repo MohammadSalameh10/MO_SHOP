@@ -175,3 +175,7 @@ C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.
 C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\hamod\Desktop\Projects\API\MOSHOP\MOSHOP.PL\bin\Debug\net9.0\MOSHOP.PL.staticwebassets.runtime.json

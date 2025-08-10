@@ -3,7 +3,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MOSHOP.BLL.Services.Classes;
 using MOSHOP.BLL.Services.Interfaces;
@@ -12,6 +14,7 @@ using MOSHOP.DAL.Models;
 using MOSHOP.DAL.Repositories.Classes;
 using MOSHOP.DAL.Repositories.Interfaces;
 using MOSHOP.DAL.Utils;
+using MOSHOP.PL.Utils;
 using Scalar;
 using Scalar.AspNetCore;
 namespace MOSHOP.PL
@@ -32,13 +35,25 @@ namespace MOSHOP.PL
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IFIleService, FileService>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IBrandService, BrandService>();
             builder.Services.AddScoped<ISeedData, SeedData>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IEmailSender, EmailSetting>();
+           
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -75,6 +90,8 @@ namespace MOSHOP.PL
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
 
 
             app.MapControllers();

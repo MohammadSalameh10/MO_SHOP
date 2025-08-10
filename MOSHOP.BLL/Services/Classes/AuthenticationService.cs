@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MOSHOP.BLL.Services.Interfaces;
@@ -19,10 +20,14 @@ namespace MOSHOP.BLL.Services.Classes
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
-        public AuthenticationService(UserManager<ApplicationUser> userManager ,IConfiguration configuration)
+        private readonly IEmailSender _emailSender;
+        public AuthenticationService(UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _emailSender = emailSender;
         }
         public async Task<UserResponse> LoginAsync(LoginRequest loginRequest)
         {
@@ -31,12 +36,18 @@ namespace MOSHOP.BLL.Services.Classes
             {
                 throw new Exception("Invalid email or password");
             }
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                throw new Exception("Please confirm your email");
+            }
+
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
             if (!isPasswordValid)
             {
                 throw new Exception("Invalid email or password");
             }
-           
+
             return new UserResponse()
             {
                 Token = await CreateTokenAsync(user)
@@ -44,6 +55,20 @@ namespace MOSHOP.BLL.Services.Classes
 
         }
 
+        public async Task<string> ConfirmEmailAsync(string token,string userId)
+        {
+           var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+            {
+                throw new Exception("User not found");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return "Email confirmed successfully";
+            }
+           return "Email confirmation failed";
+        }
         public async Task<UserResponse> RegisterAsync(RegisterRequest registerRequest)
         {
             var user = new ApplicationUser()
@@ -57,6 +82,13 @@ namespace MOSHOP.BLL.Services.Classes
             var Result = await _userManager.CreateAsync(user, registerRequest.Password);
             if (Result.Succeeded)
             {
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var escapeToken = Uri.EscapeDataString(token);
+                var emailUrl = $"https://localhost:7254/api/identity/Account/ConfirmEmail?token={escapeToken}&userId={user.Id}";
+
+
+                await _emailSender.SendEmailAsync(user.Email, "Welcome", $"<h1>Hello {user.UserName}</h1>" +
+                    $"<a href='{emailUrl}'> confirm </a>");
                 return new UserResponse()
                 {
                     Token = registerRequest.Email
@@ -85,7 +117,7 @@ namespace MOSHOP.BLL.Services.Classes
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("jwtOptions")["SecretKey"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-           
+
             var token = new JwtSecurityToken(
                 claims: Claims,
                 expires: DateTime.Now.AddDays(15),
@@ -93,6 +125,50 @@ namespace MOSHOP.BLL.Services.Classes
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<bool> ForgotPasswordAsync(ForgotPasswordRequest request) 
+        { 
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+          var random = new Random();
+            var code = random.Next(1000, 9999).ToString();
+            user.CodeResetPassword = code;
+            user.PasswordResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
+
+            await _userManager.UpdateAsync(user);
+            await _emailSender.SendEmailAsync(user.Email, "Reset Password", 
+                $"<h1>Hello {user.UserName}</h1>" +
+                $"<p>Your reset password code is: {code}</p>" +
+                $"<p>It will expire in 15 minutes.</p>");
+
+            return true;
+        }
+        public async Task<bool> ResetPasswordAsync(ResetPasswordRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            if(user.CodeResetPassword != request.Code || 
+                user.PasswordResetCodeExpiry < DateTime.UtcNow)
+            {
+                return false;
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var restult = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+
+            if (restult.Succeeded)
+            {
+            await _emailSender.SendEmailAsync(user.Email, "Password Reset Successful",
+                $"<h1>Hello {user.UserName}</h1>" +
+                $"<p>Your password has been reset successfully.</p>");
+            }
+            return true;
         }
     }
 }

@@ -8,7 +8,9 @@ namespace MOSHOP.DAL.Models
 {
     public class Brand : BaseModel
     {
-        public string Name { get; set; } = string.Empty;
-      
+        public string Name { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
+
     }
 }

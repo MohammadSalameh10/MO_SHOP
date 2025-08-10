@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Requests;
 
-namespace MOSHOP.PL.Controllers
+namespace MOSHOP.PL.Areas.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[area]/[controller]")]
     [ApiController]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class CategoriesController : ControllerBase
     {
         public readonly ICategoryService _categoryService;

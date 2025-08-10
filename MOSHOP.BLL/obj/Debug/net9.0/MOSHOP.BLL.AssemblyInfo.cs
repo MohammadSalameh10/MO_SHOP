@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MOSHOP.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a99d9c68aec253ea14ad3efed294f0f6a25ec31d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7664e02ea60486f6ba87f64d79171d61a652d5a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("MOSHOP.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MOSHOP.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

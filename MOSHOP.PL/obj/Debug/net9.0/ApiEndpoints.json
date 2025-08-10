@@ -18,9 +18,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "MOSHOP.DAL.DTO.Requests.BrandRequest",
-        "IsRequired": true
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MainImage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -82,6 +87,101 @@
     "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.BrandsController",
     "Method": "ToggleStatus",
     "RelativePath": "api/Admin/Brands/ToggleStatus/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.CategoriesController",
+    "Method": "GetAll",
+    "RelativePath": "api/Admin/Categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.CategoriesController",
+    "Method": "Create",
+    "RelativePath": "api/Admin/Categories",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MOSHOP.DAL.DTO.Requests.CategoryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.CategoriesController",
+    "Method": "GetById",
+    "RelativePath": "api/Admin/Categories/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.CategoriesController",
+    "Method": "Update",
+    "RelativePath": "api/Admin/Categories/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "MOSHOP.DAL.DTO.Requests.CategoryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.CategoriesController",
+    "Method": "Delete",
+    "RelativePath": "api/Admin/Categories/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.CategoriesController",
+    "Method": "ToggleStatus",
+    "RelativePath": "api/Admin/Categories/ToggleStatus/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
@@ -161,101 +261,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MOSHOP.PL.Controllers.CategoriesController",
-    "Method": "GetAll",
-    "RelativePath": "api/Categories",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MOSHOP.PL.Controllers.CategoriesController",
-    "Method": "Create",
-    "RelativePath": "api/Categories",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "MOSHOP.DAL.DTO.Requests.CategoryRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MOSHOP.PL.Controllers.CategoriesController",
-    "Method": "GetById",
-    "RelativePath": "api/Categories/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MOSHOP.PL.Controllers.CategoriesController",
-    "Method": "Update",
-    "RelativePath": "api/Categories/{id}",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "MOSHOP.DAL.DTO.Requests.CategoryRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MOSHOP.PL.Controllers.CategoriesController",
-    "Method": "Delete",
-    "RelativePath": "api/Categories/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MOSHOP.PL.Controllers.CategoriesController",
-    "Method": "ToggleStatus",
-    "RelativePath": "api/Categories/ToggleStatus/{id}",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.BrandsController",
     "Method": "GetAll",
     "RelativePath": "api/Customer/Brands",
@@ -269,6 +274,58 @@
     "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.BrandsController",
     "Method": "GetById",
     "RelativePath": "api/Customer/Brands/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CategoriesController",
+    "Method": "GetAll",
+    "RelativePath": "api/Customer/Categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CategoriesController",
+    "Method": "GetById",
+    "RelativePath": "api/Customer/Categories/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.ProductsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Customer/Products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.ProductsController",
+    "Method": "GetById",
+    "RelativePath": "api/Customer/Products/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

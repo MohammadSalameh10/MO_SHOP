@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MOSHOP.BLL.Services.Classes;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Requests;
 
@@ -35,14 +36,10 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
         }
 
         [HttpPost("")]
-        public IActionResult Create([FromBody] BrandRequest request)
+        public async Task<IActionResult> Create([FromForm] BrandRequest request)
         {
-            var id = _brandService.Create(request);
-            if (id == 0)
-            {
-                return BadRequest("Brand  could not be created.");
-            }
-            return CreatedAtAction(nameof(GetById), new { id }, null);
+            var result = await _brandService.CreateFileAsync(request);
+            return Ok(result);
         }
 
         [HttpPatch("{id}")]

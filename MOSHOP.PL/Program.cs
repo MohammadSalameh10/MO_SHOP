@@ -40,6 +40,8 @@ namespace MOSHOP.PL
             builder.Services.AddScoped<ICheckOutService, CheckOutService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IFIleService, BLL.Services.Classes.FileService>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();

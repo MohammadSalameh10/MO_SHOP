@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,11 +31,12 @@ namespace MOSHOP.PL.Areas.Customer.Controllers
             return Ok(response);
         }
 
-        [HttpGet("Success")]
+        [HttpGet("Success/{orderId}")]
         [AllowAnonymous]
-        public IActionResult Success()
+        public async Task<IActionResult> Success([FromRoute] int orderId)
         {
-            return Ok("Payment was successful!");
+            var result = await _checkOutService.HandlePaymentSuccessAsync(orderId);
+            return Ok(result);
         }
     }
 }

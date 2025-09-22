@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Requests;
 using MOSHOP.DAL.DTO.Responses;
+using MOSHOP.DAL.Models;
 using MOSHOP.DAL.Repositories.Interfaces;
 using Stripe.Checkout;
 
@@ -15,13 +17,72 @@ namespace MOSHOP.BLL.Services.Classes
     public class CheckOutService : ICheckOutService
     {
         private readonly ICartRepository _cartRepository;
-        public CheckOutService(ICartRepository cartRepository)
+        private readonly IOrderRepository _orderRepository;
+        private readonly IEmailSender _email;
+        private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IProductRepository _productRepository;
+        public CheckOutService(ICartRepository cartRepository,
+            IOrderRepository orderRepository, IEmailSender email,
+            IOrderItemRepository orderItemRepository,IProductRepository productRepository)
         {
-            cartRepository = _cartRepository;
+            _cartRepository = cartRepository;
+            _orderRepository = orderRepository;
+            _email = email;
+            _orderItemRepository = orderItemRepository;
+            _productRepository = productRepository;
         }
+
+        public async Task<bool> HandlePaymentSuccessAsync(int orderId)
+        {
+            var order = await _orderRepository.GetUserByOrderAsync(orderId);
+            var subject = "";
+            var body = "";
+            if (order.PaymentMethod == PaymentMethod.Visa)
+            {
+
+                order.Status = OrderStatus.Approved;
+
+                var carts = await _cartRepository.GetUserCartAsync(order.UserId);
+                var orderItems = new List<OrderItem>();
+                var productUpdate = new List<(int ProductId,int quantity)>();
+                foreach (var cartItem in carts)
+                {
+                    var orderItem = new OrderItem
+                    {
+                        OrderId = order.Id,
+                        ProductId = cartItem.ProductId,
+                        TotalPrice = cartItem.Product.Price * cartItem.Count,
+                        Count = cartItem.Count,
+                        Price = cartItem.Product.Price
+                    };
+                    orderItems.Add(orderItem);
+                    productUpdate.Add((cartItem.ProductId, cartItem.Count));
+
+                }
+                await _orderItemRepository.AddRangeAsync(orderItems);
+                await _cartRepository.ClearCartAsync(order.UserId);
+                await _productRepository.DecreaseQuantityAsync(productUpdate);
+
+                subject = "Payment Successful";
+                body = "<h1>Thank you for your payment</h1>" +
+                    $"<p>Your payment for order {orderId}</p>" +
+                    $"<p>Total Amount : ${order.TotalAmount}</p>";
+            }
+            else if (order.PaymentMethod == PaymentMethod.Cash)
+            {
+                subject = "Order Placed";
+                body = "<h1>Thank you for your order</h1>" +
+                    $"<p>Your order {orderId} has been placed successfully.</p>" +
+                    $"<p>Total Amount : ${order.TotalAmount}</p>";
+            }
+
+            await _email.SendEmailAsync(order.User.Email, subject, body);
+            return true;
+        }
+
         public async Task<CheckOutResponse> ProcsessPaymentAsync(CheckOutRequest request, string UserId, HttpRequest httpRequest)
         {
-            var cartItems = _cartRepository.GetUserCart(UserId);
+            var cartItems = await _cartRepository.GetUserCartAsync(UserId);
 
             if (!cartItems.Any())
             {
@@ -32,7 +93,18 @@ namespace MOSHOP.BLL.Services.Classes
                 };
             }
 
-            if (request.PaymentMethod == "Cash")
+            Order order = new Order
+            {
+                UserId = UserId,
+                PaymentMethod = request.PaymentMethod,
+                OrderDate = DateTime.UtcNow,
+                Status = OrderStatus.Pending,
+                TotalAmount = cartItems.Sum(c => c.Product.Price * c.Count)
+            };
+
+            await _orderRepository.AddAsync(order);
+
+            if (request.PaymentMethod == PaymentMethod.Cash)
             {
                 return new CheckOutResponse
                 {
@@ -41,7 +113,7 @@ namespace MOSHOP.BLL.Services.Classes
                 };
             }
 
-            if (request.PaymentMethod == "Visa")
+            if (request.PaymentMethod == PaymentMethod.Visa)
             {
 
                 var options = new SessionCreateOptions
@@ -54,7 +126,7 @@ namespace MOSHOP.BLL.Services.Classes
 
 
                     Mode = "payment",
-                    SuccessUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/Customer/CheckOuts/Success",
+                    SuccessUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/api/Customer/CheckOuts/Success/{order.Id}",
                     CancelUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/checkout/cancel",
                 };
                 foreach (var item in cartItems)
@@ -77,16 +149,18 @@ namespace MOSHOP.BLL.Services.Classes
                 var service = new SessionService();
                 var session = service.Create(options);
 
+                order.PaymentId = session.Id;
+
                 return new CheckOutResponse
                 {
                     Success = true,
                     Message = "Payment processed successfully.",
-                    //  SessionId = session.Id
+                    PaymentId = session.Id,
                     Url = session.Url
                 };
             }
 
-           return new CheckOutResponse
+            return new CheckOutResponse
             {
                 Success = false,
                 Message = "Invalid payment method."

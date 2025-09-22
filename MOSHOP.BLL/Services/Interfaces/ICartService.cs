@@ -10,8 +10,10 @@ namespace MOSHOP.BLL.Services.Interfaces
 {
     public interface ICartService
     {
-        bool AddToCart(CartRequest request, string userId);
+       Task<bool> AddToCartAsync(CartRequest request, string userId);
 
-        CartSummaryResponse CartSummaryResponse(string userId);
+       Task<CartSummaryResponse> CartSummaryResponseAsync(string userId);
+
+        Task<bool> ClearCartAsync(string userId);
     }
 }

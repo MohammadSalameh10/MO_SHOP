@@ -19,15 +19,25 @@ namespace MOSHOP.DAL.Repositories.Classes
         {
             _context = context;
         }
-        public int Add(Cart cart)
+        public async Task<int> AddAsync(Cart cart)
         {
-            _context.Carts.Add(cart);
+            await _context.Carts.AddAsync(cart);
             return _context.SaveChanges();
         }
 
-        public List<Cart> GetUserCart(string userId)
+        public async Task<bool> ClearCartAsync(string userId)
         {
-            return _context.Carts.Include(c => c.Product).Where(c => c.UserId == userId).ToList();
+            var items = _context.Carts.Where(c => c.UserId == userId).ToList();
+            _context.Carts.RemoveRange(items);
+
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+
+        public async Task<List<Cart>> GetUserCartAsync(string userId)
+        {
+            return await _context.Carts.Include(c => c.Product).Where(c => c.UserId == userId).ToListAsync();
         }
     }
 }

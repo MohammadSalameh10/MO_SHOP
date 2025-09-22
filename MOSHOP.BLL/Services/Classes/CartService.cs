@@ -18,7 +18,7 @@ namespace MOSHOP.BLL.Services.Classes
         {
             _cartRepository = cartRepository;
         }
-        public bool AddToCart(CartRequest request, string userId)
+        public async Task<bool> AddToCartAsync(CartRequest request, string userId)
         {
             var newItem = new Cart
             {
@@ -27,12 +27,12 @@ namespace MOSHOP.BLL.Services.Classes
                 Count = 1
             };
 
-            return _cartRepository.Add(newItem) > 0;
+            return await _cartRepository.AddAsync(newItem) > 0;
         }
 
-        public CartSummaryResponse CartSummaryResponse(string userId)
+        public async Task<CartSummaryResponse> CartSummaryResponseAsync(string userId)
         {
-            var cartItems = _cartRepository.GetUserCart(userId);
+            var cartItems =await _cartRepository.GetUserCartAsync(userId);
 
             var response = new CartSummaryResponse
             {
@@ -46,6 +46,11 @@ namespace MOSHOP.BLL.Services.Classes
             };
 
             return response;
+        }
+
+        public async Task<bool> ClearCartAsync(string userId)
+        {
+            return await _cartRepository.ClearCartAsync(userId);
         }
     }
 }

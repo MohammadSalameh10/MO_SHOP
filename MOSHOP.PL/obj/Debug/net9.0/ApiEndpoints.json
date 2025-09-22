@@ -345,6 +345,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CheckOutsController",
+    "Method": "Payment",
+    "RelativePath": "api/Customer/CheckOuts/payment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MOSHOP.DAL.DTO.Requests.CheckOutRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CheckOutsController",
+    "Method": "Success",
+    "RelativePath": "api/Customer/CheckOuts/Success/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.ProductsController",
     "Method": "GetAll",
     "RelativePath": "api/Customer/Products",

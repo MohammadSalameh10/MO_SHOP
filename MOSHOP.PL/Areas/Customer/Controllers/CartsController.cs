@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +22,19 @@ namespace MOSHOP.PL.Areas.Customer.Controllers
 
         [HttpPost("")]
 
-        public IActionResult AddToCart(CartRequest request)
+        public async Task<IActionResult> AddToCart(CartRequest request)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = _cartService.AddToCart(request, userId);
+            var result =await _cartService.AddToCartAsync(request, userId);
 
             return result ? Ok() : BadRequest();
         }
 
         [HttpGet("")]
 
-        public IActionResult GetUserCart(CartRequest request) {
+        public async Task<IActionResult> GetUserCart(CartRequest request) {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = _cartService.CartSummaryResponse(userId);
+            var result = await _cartService.CartSummaryResponseAsync(userId);
             return Ok(result);
         }
     }

@@ -6,8 +6,9 @@ namespace MOSHOP.DAL.Repositories.Interfaces
 {
     public interface ICartRepository
     {
-        int Add(Cart cart);
+        Task<int> AddAsync(Cart cart);
 
-        List<Cart> GetUserCart(string userId);
+        Task<List<Cart>> GetUserCartAsync(string userId);
+        Task<bool> ClearCartAsync(string userId);
     }
 }

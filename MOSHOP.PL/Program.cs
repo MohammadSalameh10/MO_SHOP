@@ -17,6 +17,7 @@ using MOSHOP.DAL.Utils;
 using MOSHOP.PL.Utils;
 using Scalar;
 using Scalar.AspNetCore;
+using Stripe;
 namespace MOSHOP.PL
 {
     public class Program
@@ -35,15 +36,18 @@ namespace MOSHOP.PL
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductService, BLL.Services.Classes.ProductService>();
+            builder.Services.AddScoped<ICheckOutService, CheckOutService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IFIleService, FileService>();
+            builder.Services.AddScoped<IFIleService, BLL.Services.Classes.FileService>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IBrandService, BrandService>();
             builder.Services.AddScoped<ISeedData, SeedData>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<IEmailSender, EmailSetting>();
-           
+
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -53,6 +57,9 @@ namespace MOSHOP.PL
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.MaxFailedAccessAttempts = 5;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             builder.Services.AddAuthentication(options =>
@@ -73,6 +80,9 @@ namespace MOSHOP.PL
             };
         });
 
+            // Configure Stripe settings
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

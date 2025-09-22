@@ -287,6 +287,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CartsController",
+    "Method": "AddToCart",
+    "RelativePath": "api/Customer/Carts",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MOSHOP.DAL.DTO.Requests.CartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CartsController",
+    "Method": "GetUserCart",
+    "RelativePath": "api/Customer/Carts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MOSHOP.DAL.DTO.Requests.CartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.CategoriesController",
     "Method": "GetAll",
     "RelativePath": "api/Customer/Categories",

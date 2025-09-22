@@ -1,2 +1,6 @@
 wwwroot\images\10801480-37e0-4d49-b6c4-9d99684200fd.jpg
 wwwroot\images\6304f504-50b5-49eb-8c1d-644359dcab51.png
+wwwroot\images\AppleBrand.png
+wwwroot\images\e6753ad4-008d-4d6c-beef-a9e7bdbb68b1.jpg
+wwwroot\images\NikeBrand.jpg
+wwwroot\images\SamsungBrand.png

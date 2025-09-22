@@ -130,6 +130,24 @@ namespace MOSHOP.DAL.Data.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("MOSHOP.DAL.Models.Cart", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("MOSHOP.DAL.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -246,6 +264,25 @@ namespace MOSHOP.DAL.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("MOSHOP.DAL.Models.Cart", b =>
+                {
+                    b.HasOne("MOSHOP.DAL.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MOSHOP.DAL.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MOSHOP.DAL.Models.Product", b =>

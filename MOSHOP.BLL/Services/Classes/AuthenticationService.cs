@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
@@ -21,13 +22,15 @@ namespace MOSHOP.BLL.Services.Classes
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         public AuthenticationService(UserManager<ApplicationUser> userManager,
             IConfiguration configuration,
-            IEmailSender emailSender)
+            IEmailSender emailSender, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailSender = emailSender;
+            _signInManager = signInManager;
         }
         public async Task<UserResponse> LoginAsync(LoginRequest loginRequest)
         {
@@ -37,27 +40,32 @@ namespace MOSHOP.BLL.Services.Classes
                 throw new Exception("Invalid email or password");
             }
 
-            if (!await _userManager.IsEmailConfirmedAsync(user))
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, true);
+            if (result.Succeeded)
             {
-                throw new Exception("Please confirm your email");
+                return new UserResponse()
+                {
+                    Token = await CreateTokenAsync(user)
+                };
             }
-
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
-            if (!isPasswordValid)
+            else if (result.IsLockedOut)
+            {
+                throw new Exception("Your Account is locked.");
+            }
+            else if (result.IsNotAllowed)
+            {
+                throw new Exception("You are not allowed to login. Please confirm your email.");
+            }
+            else
             {
                 throw new Exception("Invalid email or password");
             }
 
-            return new UserResponse()
-            {
-                Token = await CreateTokenAsync(user)
-            };
-
         }
 
-        public async Task<string> ConfirmEmailAsync(string token,string userId)
+        public async Task<string> ConfirmEmailAsync(string token, string userId)
         {
-           var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
             {
                 throw new Exception("User not found");
@@ -67,9 +75,9 @@ namespace MOSHOP.BLL.Services.Classes
             {
                 return "Email confirmed successfully";
             }
-           return "Email confirmation failed";
+            return "Email confirmation failed";
         }
-        public async Task<UserResponse> RegisterAsync(RegisterRequest registerRequest)
+        public async Task<UserResponse> RegisterAsync(RegisterRequest registerRequest, HttpRequest request)
         {
             var user = new ApplicationUser()
             {
@@ -84,8 +92,9 @@ namespace MOSHOP.BLL.Services.Classes
             {
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var escapeToken = Uri.EscapeDataString(token);
-                var emailUrl = $"https://localhost:7254/api/identity/Account/ConfirmEmail?token={escapeToken}&userId={user.Id}";
+                var emailUrl = $"{request.Scheme}://{request.Host}/api/identity/Account/ConfirmEmail?token={escapeToken}&userId={user.Id}";
 
+                await _userManager.AddToRoleAsync(user, "Customer");
 
                 await _emailSender.SendEmailAsync(user.Email, "Welcome", $"<h1>Hello {user.UserName}</h1>" +
                     $"<a href='{emailUrl}'> confirm </a>");
@@ -127,20 +136,20 @@ namespace MOSHOP.BLL.Services.Classes
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<bool> ForgotPasswordAsync(ForgotPasswordRequest request) 
-        { 
+        public async Task<bool> ForgotPasswordAsync(ForgotPasswordRequest request)
+        {
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-          var random = new Random();
+            var random = new Random();
             var code = random.Next(1000, 9999).ToString();
             user.CodeResetPassword = code;
             user.PasswordResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
 
             await _userManager.UpdateAsync(user);
-            await _emailSender.SendEmailAsync(user.Email, "Reset Password", 
+            await _emailSender.SendEmailAsync(user.Email, "Reset Password",
                 $"<h1>Hello {user.UserName}</h1>" +
                 $"<p>Your reset password code is: {code}</p>" +
                 $"<p>It will expire in 15 minutes.</p>");
@@ -154,7 +163,7 @@ namespace MOSHOP.BLL.Services.Classes
             {
                 throw new Exception("User not found");
             }
-            if(user.CodeResetPassword != request.Code || 
+            if (user.CodeResetPassword != request.Code ||
                 user.PasswordResetCodeExpiry < DateTime.UtcNow)
             {
                 return false;
@@ -164,9 +173,9 @@ namespace MOSHOP.BLL.Services.Classes
 
             if (restult.Succeeded)
             {
-            await _emailSender.SendEmailAsync(user.Email, "Password Reset Successful",
-                $"<h1>Hello {user.UserName}</h1>" +
-                $"<p>Your password has been reset successfully.</p>");
+                await _emailSender.SendEmailAsync(user.Email, "Password Reset Successful",
+                    $"<h1>Hello {user.UserName}</h1>" +
+                    $"<p>Your password has been reset successfully.</p>");
             }
             return true;
         }

@@ -44,9 +44,9 @@ namespace MOSHOP.DAL.Utils
             if (!await _context.Brands.AnyAsync())
             {
                 await _context.Brands.AddRangeAsync(
-                     new Brand { Name = "Samsung" },
-                     new Brand { Name = "Apple" },
-                     new Brand { Name = "Nike" }
+                     new Brand { Name = "Samsung", MainImage = "SamsungBrand.png",status=Status.Active },
+                     new Brand { Name = "Apple", MainImage = "AppleBrand.png", status = Status.Active },
+                     new Brand { Name = "Nike", MainImage = "NikeBrand.jpg",status = Status.Active }
                      );
             }
             await _context.SaveChangesAsync();
@@ -91,7 +91,7 @@ namespace MOSHOP.DAL.Utils
                 await _userManager.CreateAsync(user2, "Pass@1212");
                 await _userManager.CreateAsync(user3, "Pass@1212");
 
-              
+
 
                 await _userManager.AddToRoleAsync(user1, "Admin");
                 await _userManager.AddToRoleAsync(user2, "SuperAdmin");

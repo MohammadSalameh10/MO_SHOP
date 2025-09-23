@@ -60,6 +60,14 @@ namespace MOSHOP.BLL.Services.Classes
                 Quantity = p.Quantity,
                 MainImage =$"{request.Scheme}://{request.Host}/Images/{p.MainImage}",
                 SubImagesUrls = p.SubImages.Select(img => $"{request.Scheme}://{request.Host}/Images/{img.ImageName}").ToList(),
+                Reviews = p.Reviews.Select(r => new ReviewResponse
+                {
+                    Id = r.Id,
+                    FullName = r.User.FullName,
+                    Rate = r.Rate,
+                    Comment = r.Comment,
+                    ReviewDate = r.ReviewDate
+                }).ToList()
             }).ToList();
         }
     }

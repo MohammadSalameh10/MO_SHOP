@@ -37,8 +37,8 @@ namespace MOSHOP.DAL.Repositories.Classes
 
         public async Task<List<Order>> GetOrderByUserAsync(string userId)
         {
-           return await _context.Orders.Include(o => o.User)
-                .OrderByDescending(O => O.OrderDate).ToListAsync();
+            return await _context.Orders.Include(o => o.User)
+                 .OrderByDescending(O => O.OrderDate).ToListAsync();
         }
 
         public async Task<bool> ChangeStatusAsync(int orderId, OrderStatus newStatus)
@@ -49,6 +49,14 @@ namespace MOSHOP.DAL.Repositories.Classes
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> UserHasApprovedOrderForProductAsync(string userId, int productId)
+        {
+            return await _context.Orders.Include(o => o.OrderItems).
+                AnyAsync(e => e.UserId == userId && e.Status == OrderStatus.Approved &&
+                e.OrderItems.Any(oi => oi.ProductId == productId));
+                
         }
 
     }

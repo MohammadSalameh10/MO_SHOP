@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MOSHOP.DAL.Models;
 
 namespace MOSHOP.DAL.DTO.Responses
 {
@@ -22,5 +23,6 @@ namespace MOSHOP.DAL.DTO.Responses
 
         public List<string> SubImagesUrls { get; set; } = new List<string>();
 
+        public List<ReviewResponse> Reviews { get; set; } = new List<ReviewResponse>();
     }
 }

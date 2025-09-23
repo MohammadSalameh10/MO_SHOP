@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Requests;
 using MOSHOP.DAL.DTO.Responses;
@@ -22,7 +23,7 @@ namespace MOSHOP.BLL.Services.Classes
             _fileService = fileService;
         }
 
-        public async Task<int> CreateFileAsync(ProductRequest request)
+        public async Task<int> CreateProductAsync(ProductRequest request)
         {
             var entity = request.Adapt<Product>();
             entity.CreatedAt = DateTime.UtcNow;
@@ -32,7 +33,34 @@ namespace MOSHOP.BLL.Services.Classes
                 var imagePath = await _fileService.UploadAsync(request.MainImage);
                 entity.MainImage = imagePath;
             }
+
+            if (request.SubImages != null)
+            {
+                var subImagesPaths = await _fileService.UploadManyAsync(request.SubImages);
+                entity.SubImages = subImagesPaths.Select(img => new ProductImage { ImageName = img }).ToList();
+            }
+
             return _productRepository.Add(entity);
+        }
+
+
+        public async Task<List<ProductResponse>> GetAllProducts(HttpRequest request,bool onlayActive=false)
+        {
+            var products = _productRepository.GetAllProductsWithImage();
+            if (onlayActive)
+            {
+                products = products.Where(p => p.status == Status.Active).ToList();
+            }
+
+            return products.Select(p=> new ProductResponse
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Quantity = p.Quantity,
+                MainImage =$"{request.Scheme}://{request.Host}/Images/{p.MainImage}",
+                SubImagesUrls = p.SubImages.Select(img => $"{request.Scheme}://{request.Host}/Images/{img.ImageName}").ToList(),
+            }).ToList();
         }
     }
 

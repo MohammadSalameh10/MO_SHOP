@@ -21,6 +21,8 @@ namespace MOSHOP.DAL.Data
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+
+        public DbSet<ProductImage> ProductImages { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }

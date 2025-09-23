@@ -21,12 +21,12 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAll() => Ok(_productService.GetAll());
+        public IActionResult GetAll() => Ok(_productService.GetAllProducts(Request));
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromForm] ProductRequest request)
         {
-            var result = await _productService.CreateFileAsync(request);
+            var result = await _productService.CreateProductAsync(request);
             return Ok(result);
         }
 

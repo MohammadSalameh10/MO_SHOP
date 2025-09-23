@@ -195,6 +195,96 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.OrdersController",
+    "Method": "AddOrder",
+    "RelativePath": "api/Admin/Orders/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order",
+        "Type": "MOSHOP.DAL.Models.Order",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.OrdersController",
+    "Method": "ChangeOrderStatus",
+    "RelativePath": "api/Admin/Orders/ChangeStatus/{orderId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "newStatus",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.OrdersController",
+    "Method": "GetOrdersByStatus",
+    "RelativePath": "api/Admin/Orders/Status/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.OrdersController",
+    "Method": "GetUserByOrder",
+    "RelativePath": "api/Admin/Orders/User/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.OrdersController",
+    "Method": "GetOrdersByUser",
+    "RelativePath": "api/Admin/Orders/UserOrders/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.ProductsController",
     "Method": "GetAll",
     "RelativePath": "api/Admin/Products",
@@ -243,6 +333,11 @@
         "IsRequired": false
       },
       {
+        "Name": "SubImages",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
+      },
+      {
         "Name": "Rate",
         "Type": "System.Double",
         "IsRequired": false
@@ -280,6 +375,80 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.UsersController",
+    "Method": "BlockUser",
+    "RelativePath": "api/Admin/Users/Block/{userId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "days",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.UsersController",
+    "Method": "ChangeUserRole",
+    "RelativePath": "api/Admin/Users/ChangeRole/{userId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "MOSHOP.DAL.DTO.Requests.ChangeRoleRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.UsersController",
+    "Method": "IsUserBlocked",
+    "RelativePath": "api/Admin/Users/IsBlocked/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.UsersController",
+    "Method": "UnBlockUser",
+    "RelativePath": "api/Admin/Users/UnBlock/{userId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
         "Type": "System.String",
         "IsRequired": true
       }

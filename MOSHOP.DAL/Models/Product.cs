@@ -19,5 +19,7 @@ namespace MOSHOP.DAL.Models
         public int CategoryId { get; set; }
         public Brand? Brand { get; set; }
         public int? BrandId { get; set; }
+
+        public List<ProductImage> SubImages { get; set; } = new List<ProductImage>();
     }
 }

@@ -261,6 +261,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.UsersController",
+    "Method": "GetAllUser",
+    "RelativePath": "api/Admin/Users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MOSHOP.PL.Areas.Admin.Controllers.UsersController",
+    "Method": "GetUserById",
+    "RelativePath": "api/Admin/Users/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MOSHOP.PL.Areas.Customer.Controllers.BrandsController",
     "Method": "GetAll",
     "RelativePath": "api/Customer/Brands",

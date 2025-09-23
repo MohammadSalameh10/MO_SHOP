@@ -31,6 +31,16 @@ namespace MOSHOP.PL
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            var userPolicy = "";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: userPolicy, policy =>
+                {
+                    policy.AllowAnyOrigin();
+                });
+            });
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -101,10 +111,13 @@ namespace MOSHOP.PL
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+
+            app.UseCors(userPolicy);
+           
             app.UseAuthorization();
 
             app.UseStaticFiles();
-
 
             app.MapControllers();
 

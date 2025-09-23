@@ -15,5 +15,6 @@ namespace MOSHOP.BLL.Services.Interfaces
         Task<bool> BlockUserAsync(string userId, int days);
         Task<bool> UnBlockUserAsync(string userId);
         Task<bool> IsBlockUserAsync(string userId);
+        Task<bool> ChangeUserRoleAsync(string userId, string roleName);
     }
 }

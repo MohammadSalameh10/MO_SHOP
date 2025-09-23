@@ -58,5 +58,18 @@ namespace MOSHOP.DAL.Repositories.Classes
             if (user == null) return false;
             return user.LockoutEnd.HasValue && user.LockoutEnd > DateTime.UtcNow;
         }
+
+
+        public async Task<bool> ChangeUserRoleAsync(string userId,string roleName)
+        {
+          var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return false;
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+            var addResult = await _userManager.AddToRoleAsync(user, roleName);
+            return removeResult.Succeeded;
+        }
     }
 }

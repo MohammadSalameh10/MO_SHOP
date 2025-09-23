@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mapster;
+using Microsoft.AspNetCore.Identity;
 using MOSHOP.BLL.Services.Interfaces;
 using MOSHOP.DAL.DTO.Responses;
 using MOSHOP.DAL.Models;
@@ -14,21 +15,44 @@ namespace MOSHOP.BLL.Services.Classes
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         public async Task<bool> BlockUserAsync(string userId, int days)
         {
-           return await _userRepository.BlockUserAsync(userId, days);
+            return await _userRepository.BlockUserAsync(userId, days);
+        }
+
+        public async Task<bool> ChangeUserRoleAsync(string userId, string roleName)
+        {
+            return await _userRepository.ChangeUserRoleAsync(userId, roleName);
         }
 
         public async Task<List<UserDTO>> GetAllAsync()
         {
             var users = await _userRepository.GetAllAsync();
-            return users.Adapt<List<UserDTO>>();
+            var userDTOS = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userDTOS.Add(new UserDTO
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    EmailConfirmed = user.EmailConfirmed,
+                    RoleName = roles.FirstOrDefault()
+                });
+            }
+
+            return userDTOS;
         }
 
         public async Task<UserDTO> GetByIdAsync(string userId)
@@ -39,12 +63,12 @@ namespace MOSHOP.BLL.Services.Classes
 
         public async Task<bool> IsBlockUserAsync(string userId)
         {
-          return await  _userRepository.IsBlockUserAsync(userId);
+            return await _userRepository.IsBlockUserAsync(userId);
         }
 
         public async Task<bool> UnBlockUserAsync(string userId)
         {
-           return await _userRepository.UnBlockUserAsync(userId);
+            return await _userRepository.UnBlockUserAsync(userId);
         }
     }
 }

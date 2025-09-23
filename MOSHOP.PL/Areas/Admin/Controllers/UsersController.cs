@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MOSHOP.BLL.Services.Interfaces;
+using MOSHOP.DAL.DTO.Requests;
 
 namespace MOSHOP.PL.Areas.Admin.Controllers
 {
@@ -33,7 +34,7 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
             return Ok(user);
         }
 
-        [HttpPatch("Block/{id}")]
+        [HttpPatch("Block/{userId}")]
 
         public async Task<IActionResult> BlockUser([FromRoute] string userId, [FromBody] int days)
         {
@@ -45,7 +46,7 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
             return Ok(new { message = "User blocked successfully." });
         }
 
-        [HttpPatch("UnBlock/{id}")]
+        [HttpPatch("UnBlock/{userId}")]
         public async Task<IActionResult> UnBlockUser([FromRoute] string userId)
         {
             var result = await _userService.UnBlockUserAsync(userId);
@@ -56,11 +57,23 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
             return Ok(new { message = "User unblocked successfully." });
         }
 
-        [HttpGet("IsBlocked/{id}")]
+        [HttpGet("IsBlocked/{userId}")]
         public async Task<IActionResult> IsUserBlocked([FromRoute] string userId)
         {
             var isBlocked = await _userService.IsBlockUserAsync(userId);
             return Ok(new { userId, isBlocked });
+        }
+
+        [HttpPatch("ChangeRole/{userId}")]
+
+        public async Task<IActionResult> ChangeUserRole([FromRoute] string userId, [FromBody] ChangeRoleRequest request)
+        {
+            var result = await _userService.ChangeUserRoleAsync(userId, request.RoleName);
+            if (!result)
+            {
+                return NotFound(new { message = "User not found or could not change role." });
+            }
+            return Ok(new { message = "User role changed successfully." });
         }
 
     }

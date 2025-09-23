@@ -44,7 +44,7 @@ namespace MOSHOP.BLL.Services.Classes
         }
 
 
-        public async Task<List<ProductResponse>> GetAllProducts(HttpRequest request,bool onlayActive=false)
+        public async Task<List<ProductResponse>> GetAllProducts(HttpRequest request, bool onlayActive = false, int pageNumber = 1, int pageSize = 1)
         {
             var products = _productRepository.GetAllProductsWithImage();
             if (onlayActive)
@@ -52,13 +52,15 @@ namespace MOSHOP.BLL.Services.Classes
                 products = products.Where(p => p.status == Status.Active).ToList();
             }
 
-            return products.Select(p=> new ProductResponse
+            var pagedProducts = products.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return pagedProducts.Select(p => new ProductResponse
             {
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
                 Quantity = p.Quantity,
-                MainImage =$"{request.Scheme}://{request.Host}/Images/{p.MainImage}",
+                MainImage = $"{request.Scheme}://{request.Host}/Images/{p.MainImage}",
                 SubImagesUrls = p.SubImages.Select(img => $"{request.Scheme}://{request.Host}/Images/{img.ImageName}").ToList(),
                 Reviews = p.Reviews.Select(r => new ReviewResponse
                 {

@@ -21,7 +21,11 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult GetAll() => Ok(_productService.GetAllProducts(Request));
+        public IActionResult GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+        {
+           var result =  _productService.GetAllProducts(Request, false, pageNumber, pageSize);
+            return Ok(result);
+        }
 
         [HttpPost("")]
         public async Task<IActionResult> Create([FromForm] ProductRequest request)
@@ -30,6 +34,6 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
             return Ok(result);
         }
 
-       
+
     }
 }

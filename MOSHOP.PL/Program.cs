@@ -54,6 +54,7 @@ namespace MOSHOP.PL
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<ReportService>();
             builder.Services.AddScoped<IReviewService, BLL.Services.Classes.ReviewService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IFIleService, BLL.Services.Classes.FileService>();

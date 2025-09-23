@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MOSHOP.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d11cc09608b13d0bed3b9a34cd1e6087d5f5c759")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd88a56556f00d422bc157f4e7cfbe86a322248a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MOSHOP.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MOSHOP.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

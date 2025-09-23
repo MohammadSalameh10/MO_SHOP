@@ -26,7 +26,7 @@ namespace MOSHOP.PL.Areas.Admin.Controllers
         }
 
         [HttpPatch("ChangeStatus/{orderId}")]
-        public async Task<IActionResult> ChangeOrderStatus(int orderId, [FromBody] OrderStatus newStatus)
+        public async Task<IActionResult> ChangeOrderStatus([FromRoute]int orderId, [FromBody] OrderStatus newStatus)
         {
             var result = await _orderService.ChangeStatusAsync(orderId, newStatus);
             return Ok(new { Message = "Status is change" });

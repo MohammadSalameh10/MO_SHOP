@@ -13,6 +13,6 @@ namespace MOSHOP.BLL.Services.Interfaces
     public interface IProductService : IGenericService<ProductRequest, ProductResponse, Product>
     {
         Task<int> CreateProductAsync(ProductRequest request);
-        Task<List<ProductResponse>> GetAllProducts(HttpRequest request, bool onlayActive = false);
+        Task<List<ProductResponse>> GetAllProducts(HttpRequest request, bool onlayActive = false, int pageNumber = 1, int pageSize = 1);
     }
 }

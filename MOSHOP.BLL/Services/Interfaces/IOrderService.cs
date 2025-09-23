@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MOSHOP.DAL.Models;
 
-namespace MOSHOP.DAL.Repositories.Interfaces
+namespace MOSHOP.BLL.Services.Interfaces
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
         Task<Order?> GetUserByOrderAsync(int orderId);
-        Task<Order?> AddAsync(Order order);
+        Task<Order?> AddOrderAsync(Order order);
         Task<List<Order>> GetByStatusAsync(OrderStatus status);
         Task<List<Order>> GetOrderByUserAsync(string userId);
         Task<bool> ChangeStatusAsync(int orderId, OrderStatus newStatus);
